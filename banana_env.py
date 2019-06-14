@@ -34,8 +34,8 @@ class BananaEnvWrapper(object):
         # examine the state space
         state = env_info.vector_observations[0]
         print('States look like:', state)
-        state_size = len(state)
-        print('States have length:', state_size)
+        self.state_size = len(state)
+        print('States have length:', self.state_size)
 
         self.score = 0
         self.episode = 0
@@ -47,11 +47,11 @@ class BananaEnvWrapper(object):
         self.train_mode = True
 
     def reset(self):
-        print("Score: %d, epsiode: %d" % (self.score, self.episode))
+        # print("Score: %d, epsiode: %d" % (self.score, self.episode))
         self.episode += 1
         self.score = 0
         env_info = self.unity_env.reset(train_mode=self.train_mode)[self.brain_name]
-        return self._wrap_state(env_info.vector_observations[0])  # Return current state
+        return env_info.vector_observations[0]  # Return current state
 
     def step(self, action):
         env_info = self.unity_env.step(action)[self.brain_name]
@@ -59,15 +59,10 @@ class BananaEnvWrapper(object):
         reward = env_info.rewards[0]  # get the reward
         done = env_info.local_done[0]  # see if episode has finished
         self.score += reward  # update the score
-        return self._wrap_state(state), reward, done
+        return state, reward, done
 
     def close(self):
         self.unity_env.close()
-
-    def _wrap_state(self, state):
-        state = state[np.newaxis, np.newaxis, :]
-        # todo: Normalization
-        return torch.tensor(state, dtype=torch.float32, device=self.device)
 
 
 if __name__ == '__main__':
