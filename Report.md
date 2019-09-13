@@ -1,4 +1,4 @@
-### Implementation details:
+### Implementation details
 The agent uses the Udacity implementation of a standard DQN agent.
 The following parameters were used for the algorithm:
 * Replay buffer size: 100000
@@ -23,12 +23,12 @@ I used CPU for training, as it was faster than GPU.
 To achieve better performance, the agent was trained for 1000 episodes.
 
 
-### Plot of rewards:
+### Plot of rewards
 The trained agent received an average reward of 15.09 over 100 episodes:
 
 ![rewards over 100 episodes](eval_plot.png "rewards over 100 episodes")
 
-### Future ideas:
+### Future ideas
 What could be done to further improve the performance / learning speed:
 * Further experiments with different parameters like network size, learning rate and how often to update
 * Implement and use improvements developed for the DQN algorithm, like Prioritized Experience Replay or Dueling Q-Networks

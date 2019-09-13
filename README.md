@@ -18,7 +18,7 @@ The action space size is 4: left, right, straight and backwards.
 
 Banana env is considered to be solved if an agent is able to score a reward of more than 13 per episode.
 
-##### Lessons learned:
+##### Lessons learned
 It looks like simply taking a well performing RL algorithmn and moving it over to a different environment is more 
 challenging than I thought. The set of parameter's needs to be tuned individual for a new environment, given the 
 environment is not similar enough to the old one.
@@ -45,5 +45,5 @@ python3 dqn.py
 To train the agent instead of evaluating, just uncomment the line at the end of dqn.py.
 
 
-##### Implementation details and results:
+##### Implementation details and results
 See Report.md
