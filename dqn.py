@@ -57,35 +57,58 @@ def dqn(n_episodes=1000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
         print('\rEpisode {}\tAverage Score: {:.2f}\tEpsilon: {:.2f}'.format(i_episode, np.mean(scores_window), eps), end="")
         if i_episode % 100 == 0:
             print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)))
-        if np.mean(scores_window) >= 13.0:
-            print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(i_episode - 100,
-                                                                                         np.mean(scores_window)))
-            torch.save(agent.qnetwork_local.state_dict(), 'checkpoint.pth')
-            break
+        # if np.mean(scores_window) >= 13.0:
+        #     print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(i_episode - 100,
+        #                                                                                  np.mean(scores_window)))
+        #     torch.save(agent.qnetwork_local.state_dict(), 'checkpoint.pth')
+        #     break
+
+    torch.save(agent.qnetwork_local.state_dict(), 'checkpoint.pth')
     return scores
 
 
-scores = dqn()
+def plot(scores):
+    # plot the scores
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    plt.plot(np.arange(len(scores)), scores)
+    plt.ylabel('Score')
+    plt.xlabel('Episode #')
+    # plt.show()
+    plt.savefig("eval_plot")
 
-# plot the scores
-fig = plt.figure()
-ax = fig.add_subplot(111)
-plt.plot(np.arange(len(scores)), scores)
-plt.ylabel('Score')
-plt.xlabel('Episode #')
-plt.show()
+    scores_as_np = np.array(scores)
+    print("Mean reward: ", np.mean(scores_as_np))
 
-# load the weights from file
-agent.qnetwork_local.load_state_dict(torch.load('checkpoint.pth'))
-env.eval()
 
-for i in range(3):
-    state = env.reset()
-    for j in range(200):
-        action = agent.act(state)
-        # env.render()
-        state, reward, done = env.step(action)
-        if done:
-            break
+def train():
+    scores = dqn()
 
-env.close()
+    plot(scores)
+
+
+def eval():
+
+    # load the weights from file
+    agent.qnetwork_local.load_state_dict(torch.load('checkpoint.pth'))
+    # env.eval()
+
+    scores = []
+    for i in range(100):
+        state = env.reset()
+        scores.append(0)
+        for j in range(1000):
+            action = agent.act(state)
+            # env.render()
+            state, reward, done = env.step(action)
+            scores[-1] += reward
+            if done:
+                break
+
+    plot(scores)
+    env.close()
+
+
+if __name__ == '__main__':
+    # train()
+    eval()
