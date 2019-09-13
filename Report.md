@@ -18,7 +18,9 @@ Q-Network size: A two layer fully connected network with 128 neurons in each lay
 
 
 ### Convergence
-The agent usually solves the environment first after 500-600 episodes. I used CPU for training, as it was faster than GPU.
+The agent usually solves the environment first after 500-600 episodes. 
+I used CPU for training, as it was faster than GPU.
+To achieve better performance, the agent was trained for 1000 episodes.
 
 
 ### Plot of rewards:
